@@ -1,0 +1,252 @@
+﻿@{
+    Layout = "_Barre";
+}
+
+@model IEnumerable<Reddit.Models.Entities.Lien>
+
+<body>
+    <div class="body">
+
+        <h1 style="position: center; color: white; margin-left: auto; margin-right: auto; text-align: center"><u>Mes liens</u></h1>
+        <div>
+            @foreach (var item in Model)
+            {
+
+                <div class="post">
+                    <div class="voters">
+                        <a onclick="confirm(Voulez-vous vraiment supprimer ce lien)" asp-action="DeleteLien" asp-route-lienid="@item.id" asp-route-username="@ViewBag.username"><img src="/img//trash.png" class="trash" /></a>
+                        <div>
+                            <p><b>@item.User.username</b></p>
+                            
+                            @{
+                                int voted = item.voted(ViewBag.username);
+                                int v = item.getvotes();
+                            }
+                            @if (voted == 1)
+                            {
+                                <img class="arrow-up" src="/img/arrowOrange.png" />
+                            }
+                            @if (voted == 0 || voted == -1)
+                            {
+                                <img class="arrow-up" src="/img/arrow.png"/>
+                            }
+
+                        </div>
+                        <div class="nbVote">
+                            <p class="vote" id="NombreVote" name="NombreVote">@v</p>
+                            <div class="content">
+                                <p class="title">@item.title</p>
+                            </div>
+                        </div>
+                        <div>
+                            @if (voted == 0)
+                            {
+                                <img class="arrow-down" src="/img/arrowBlue.png" />
+                            }
+                            @if (voted == 1 || voted == -1)
+                            {
+                                <img class="arrow-down" src="/img/arrow.png" />
+                            }
+
+                            @if (item.image != null)
+                            {
+                                {/*<img src="data:image/jpg;base64, (byte array)">   Show bytes array in img*/}
+                                <div style="justify-content: center">
+                                    <img style="width: 70%; height: 70%; margin: auto; display: block" src="@item.ConvertIMG()">
+                                </div>
+                            }
+                            <a onclick="ShowAndHide(@item.id)" class="EnLirePlus">En voir plus</a>
+                            <div class="tab">
+                                <div id="@item.id" style="display: none">
+                                    <p>@item.description</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layoutpost">
+                        @{
+                            int? x = item.id + 1000;
+                        }
+                        <img onclick="ShowAndHide(@x)" src="/img/message.png" class="CommentaireImage" />
+
+                        <p onclick="ShowAndHide(@x)" style="display: inline">@item.comments.Count() Commentaires</p>
+                    </div>
+                </div>
+
+
+                <div class="Commentaire" id="@x" style="display: none; overflow:scroll; max-height: 1%; overflow-x: hidden; overflow-y: hidden">
+                    <hr />
+                    @foreach (var comment in item.comments)
+                    {
+                        <div style="display: inline">
+                            <img src="/img/user.png" class="usercomment" />
+                            <p style="margin-left: 3%"><b><u>@comment.User.username</u></b></p>
+                        </div>
+                        <p>@comment.text</p>
+                        <hr />
+                    }
+                </div>
+            }
+        </div>
+</body>
+
+
+<style>
+
+    .tab div {
+        display: none;
+    }
+
+
+    .usercomment {
+        margin-left: auto%;
+        maring-right: auto;
+        display: grid;
+        width: 2%;
+        height: 2%;
+        float: left;
+    }
+    .trash{
+        float: right;
+        height: 5%;
+        width: 5%
+
+    }
+
+
+    .post {
+        background-color: lightgray;
+        width: 70%;
+        padding: 1%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 5%;
+        position: relative;
+        border-radius: 10px
+    }
+
+    .Commentaire {
+        background-color: lightgray;
+        width: 70%;
+        padding: 1%;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        margin-top: 1%;
+        border-radius: 10px;
+        display: none;
+    }
+
+    .CommentaireImage {
+        display: inline;
+        width: 2%;
+        height: 2%;
+    }
+
+    .picture {
+        margin: auto;
+        display: block;
+    }
+
+    .Createpost {
+        background-color: lightgray;
+        width: 70%;
+        padding: 1%;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 10px
+    }
+
+    .CreatePostUser {
+        display: inline;
+        width: 3%;
+        height: 3%;
+    }
+
+    .buttonCreate {
+        border-radius: 25px;
+        border-color: rgb(255,69,0);
+        float: right;
+    }
+
+    .EnLirePlus {
+        float: right;
+        width: auto;
+        text-decoration: none;
+        color: black;
+        margin-top: -2%
+    }
+
+    .voters {
+        margin-bottom: 2%;
+        vertical-align: central
+    }
+
+    .nbVote {
+        display: inline;
+    }
+
+    .content {
+        display: inline;
+        font-size: 25px;
+    }
+
+    .title {
+        margin-left: 5%;
+        display: inline;
+    }
+
+    .layoutpost {
+        position: absolute;
+        background-color: rgb(255,69,0);
+        padding: 0%;
+        max-height: 27%;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    .arrow-up {
+        height: 3%;
+        width: 3%;
+        transform: rotate(270deg);
+        margin-bottom: -2%;
+    }
+
+    .arrow-down {
+        height: 3%;
+        width: 3%;
+        transform: rotate(90deg);
+        margin-top: -2%;
+    }
+
+    .body {
+        overflow: scroll;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+
+    .vote {
+        font-weight: bold;
+        display: inline;
+        font-size: 20px;
+        margin-left: 0.8%
+    }
+</style>
+
+<SCRIPT>
+    function ShowAndHide(id) {
+        var x = document.getElementById(id);
+        if (x.style.display == 'none') {
+            x.style.display = 'block';
+            console.log("block")
+        } else {
+            x.style.display = 'none';
+            console.log("none")
+        }
+    }
+
+
+</SCRIPT>

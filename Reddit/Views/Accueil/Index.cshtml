@@ -1,0 +1,273 @@
+﻿@{
+    Layout = "_Barre";
+}
+
+@model IEnumerable<Reddit.Models.Entities.Lien>
+
+<body>
+    <div class="body">
+
+        <div>
+            <!-- Create Post -->
+            <div class="Createpost">
+                <img src="/img/user.png" class="CreatePostUser" />
+                <form asp-action="AjoutLien" asp-route-username=@ViewBag.username style="display:inline">
+                   <input type="submit" class="buttonCreate" value="Créer un post" />
+                </form>
+            </div>
+
+            @foreach (var item in Model){
+
+                    <div class="post">
+                        <div class="voters">
+                            <div>
+                            <p><b>@item.User.username</b>   @item.getDate()</p>
+                            @{
+                                int voted = item.voted(ViewBag.username);
+                                int v = item.getvotes();
+                            }
+                            @if(voted == 1){
+                                <a asp-action="RemoveVote" asp-route-lienid="@item.id" asp-route-username="@ViewBag.username"><img class="arrow-up" src="/img/arrowOrange.png" /></a>
+                            }
+                            @if(voted == 0 || voted == -1 ){
+                                <a asp-action="UpVote" asp-route-lienid="@item.id" asp-route-username="@ViewBag.username" asp-route-voted="@voted"><img class="arrow-up" src="/img/arrow.png" onmouseover="hoverOrange(this);" onmouseout="unhover(this);" /></a>
+                            }
+
+                            </div>
+                            <div class="nbVote">
+                             <p class="vote" id="NombreVote" name="NombreVote">@v</p>
+                                <div class="content">
+                                    <p class="title">@item.title</p>
+                                </div>
+                            </div>
+                            <div>
+                            @if (voted == 0)
+                            {
+                                <a asp-action="RemoveVote" asp-route-lienid="@item.id" asp-route-username="@ViewBag.username"><img class="arrow-down" src="/img/arrowBlue.png" /></a>
+                            }
+                            @if (voted == 1 || voted == -1)
+                            {
+                                <a asp-action="DownVote" asp-route-lienid="@item.id" asp-route-username="@ViewBag.username" asp-route-voted="@voted"><img class="arrow-down" src="/img/arrow.png" onmouseover="hoverBlue(this);" onmouseout="unhover(this);" /></a>
+                            }
+
+                            @if (item.image != null){
+                                {/*<img src="data:image/jpg;base64, (byte array)">   Show bytes array in img*/}
+                                <div style="justify-content: center">
+                                <img style="width: 70%; height: 70%; margin: auto; display: block" src="@item.ConvertIMG()">
+                                </div>
+                            }
+                                <a onclick="ShowAndHide(@item.id)" class="EnLirePlus">En voir plus</a>
+                                <div class="tab" >
+                                    <div id="@item.id" style="display: none">
+                                        <p>@item.description</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layoutpost">
+                            @{int? x = item.id + 1000;}
+                            <img onclick="ShowAndHide(@x)" src="/img/message.png" class="CommentaireImage" />
+
+                            <p onclick="ShowAndHide(@x)" style="display: inline">@item.comments.Count() Commentaires</p>
+                        </div>
+                    </div>
+
+     
+                    <div class="Commentaire" id="@x" style="display: none; overflow:scroll; max-height: 1%; overflow-x: hidden; overflow-y: hidden">
+
+                    <div class="Createpost">
+                        <form style="margin-bottom: 10%; display: inline" asp-action="AjoutCommentaire" asp-route-lienid="@item.id" asp-route-username="@ViewBag.username">
+                            <div>
+                                <input id="texte" name="texte" style="display: inline; width: 95%" placeholder="Votre commentaire..." type="text" class="form-control" required />
+                                <input type="image" src="~/img/send.png" alt="Submit" style="float:right; width: 5%; height: 5%; margin-top: 1.5%;" />
+                            </div>
+                        </form>
+                    </div>
+                        <hr/>
+                        @foreach (var comment in item.comments.OrderByDescending(c => c.date))
+                        {
+                            <div style="display: inline">
+                                <img src="/img/user.png" class="usercomment" />
+                                <p style="margin-left: 3%"><b><u>@comment.User.username</u></b></p>
+                            </div>
+                            <p>@comment.text</p>
+                            <p>@comment.getDate()</p>
+                            <hr />
+                        }
+                    </div>
+            }
+        </div>
+</body>
+
+
+<style>
+
+    .tab div {
+        display: none;
+    }
+
+
+    .usercomment {
+        margin-left: auto%;
+        maring-right: auto;
+        display: grid;
+        width: 2%;
+        height: 2%;
+        float: left;
+    }
+
+
+    .post{
+        background-color:lightgray;
+        width: 70%;
+        padding: 1%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 5%;  
+        position: relative;
+        border-radius: 10px
+    }
+
+    .Commentaire{
+        background-color: lightgray;
+        width: 70%;
+        padding: 1%;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        margin-top: 1%;
+        border-radius: 10px;
+        display: none;
+    }
+
+    .CommentaireImage{
+        display: inline;
+        width: 2%;
+        height: 2%;
+    }
+
+    .picture{
+        margin: auto;
+        display: block;
+
+    }
+
+    .Createpost{
+        background-color: lightgray;
+        width: 70%;
+        padding: 1%;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 10px
+    }
+    .CreatePostUser{
+        display: inline;
+        width: 3%;
+        height: 3%;
+    }
+
+    .buttonCreate{
+        border-radius: 25px;
+        border-color: rgb(255,69,0);
+        float: right;
+    }
+
+    .EnLirePlus{
+        float: right;
+        width: auto;
+        text-decoration: none;
+        color: black;
+        margin-top: -2%
+    }
+
+    .voters{
+        margin-bottom:2%;
+        vertical-align: central
+    }
+
+    .nbVote{
+        display: inline;
+    }
+
+    .content{
+        display: inline;
+        font-size: 25px;
+    }
+
+    .title{
+        margin-left:5%;
+        display:inline;
+    }
+
+    .layoutpost{
+        position: absolute;
+        background-color: rgb(255,69,0);
+        padding: 0%;
+        max-height: 27%;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    .arrow-up{
+        height:3%;
+        width:3%;
+        transform: rotate(270deg);
+        margin-bottom : -2%;
+    }
+
+    .arrow-down{
+        height:3%;
+        width:3%;
+        transform: rotate(90deg);
+        margin-top: -2%;
+  
+    }
+
+    .body {
+        overflow:scroll;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+
+    .vote{
+        font-weight: bold;
+        display: inline;
+        font-size : 20px;
+        margin-left: 0.8%
+    }
+</style>
+
+<SCRIPT>
+    function ShowAndHide(id) {
+        var x = document.getElementById(id);
+        if (x.style.display == 'none') {
+            x.style.display = 'block';
+            console.log("block")
+        } else {
+            x.style.display = 'none';
+            console.log("none")
+        }
+    }
+
+    function hoverOrange(element) {
+        element.setAttribute('src', '/img/arrowOrange.png');
+    }
+
+    function unhover(element) {
+        element.setAttribute('src', '/img/arrow.png');
+    }
+
+    function hoverBlue(element) {
+        element.setAttribute('src', '/img/arrowBlue.png');
+    }
+
+    function MockVote(element){
+        document.getElementById("NombreVote").innerHTML = element + 1 ;
+    }
+
+</SCRIPT>
+
+   

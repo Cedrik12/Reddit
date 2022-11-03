@@ -1,0 +1,147 @@
+﻿<div>
+    <!-- Gros rectangle gris foncé qui englobe le rectangle d'inscription -->
+    <div>
+        <!-- Notre logo de Baleine -->
+        <img src="/img/logo_reddit.png" class="logo" />
+    </div>
+    <div class="inscriptionBox">
+        <!-- Rectangle de la boite d'inscription -->
+        <div class="siteName">
+            <!-- Image du mot reddit -->
+            <img class="nameOfApp" src="/img/reddit_name.png" />
+        </div>
+        <div>
+            <!-- Form d'inscription -->
+            <form asp-action="InscriptionUser">
+                <div class="firstInput">
+                    <input name="courriel" type="email" placeholder="Courriel" required class="inputInscription" />
+                </div>
+                <br />
+                <input name="username" type="text" placeholder="Username" minlength="5" required class="inputInscription" />
+                <br />
+                <input name="pwd" type="password" placeholder="Mot de Passe" required class="inputInscription" />
+                <br />
+                <br />
+                <input type="submit" value="Inscription" class="inscription" />
+            </form>
+        </div>
+    </div>
+    <div class="goToConnectionBox">
+        <!-- Rectangle dans le bas pour passer à la page connexion -->
+        <p class="linkToConnection"><a href="/Connexion">Vous avez déjà un compte?</a></p>
+    </div>
+    <div class="bottomDroits">
+        <p class="credits">Français (Canada) © 2022 Reddit Inc.<p>
+    </div>
+</div>
+
+<style>
+
+    body {
+        background-color: #262626;
+    }
+
+    .inscriptionBox {
+        background: rgb(255,69,0);
+        background: linear-gradient(90deg, rgba(255,69,0,1) 10%, rgba(13,13,13,1) 10%);
+        border: 1px #939393 solid;
+        border-radius: 10px;
+        width: 30%;
+        height: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        box-shadow: 15px 15px rgba(27, 26, 26, 1);
+    }
+
+    .firstInput {
+        margin-top: 5px;
+    }
+
+    .inputInscription {
+        border: 1px #939393 solid;
+        color: white;
+        background-color: black;
+        border-radius: 10px;
+        padding: 10px;
+        justify-content: center;
+        display: grid;
+        margin-right: auto;
+        margin-left: auto;
+        width: 70%;
+        font-size: 18px;
+    }
+
+    .inscription {
+        background-color: #FF4500;
+        color: white;
+        border: 1px #FF4500 solid;
+        border-radius: 5px;
+        padding: 10px;
+        justify-content: center;
+        display: grid;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .goToConnectionBox {
+        background-color: #0D0D0D;
+        border: 1px #939393 solid;
+        border-radius: 10px;
+        width: 30%;
+        height: 50px;
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: auto;
+        box-shadow: 15px 15px rgba(27, 26, 26, 1);
+    }
+
+    .linkToConnection {
+        color: white;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: center;
+        line-height: inherit;
+    }
+
+    a {
+        color: white;
+    }
+
+        a:hover {
+            color: #FF4500;
+        }
+
+    img {
+        margin-left: auto;
+        margin-right: auto;
+        display: grid;
+    }
+
+    .logo {
+        margin-top: 5%;
+        width: 10%;
+        height: 10%;
+    }
+
+    .nameOfApp {
+        width: 50%;
+        height: 50%;
+    }
+
+    .bottomDroits {
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        position: absolute;
+        height: 3%;
+        background-color: #FF4500;
+        align-items: center;
+    }
+
+    .credits {
+        text-align: center;
+        font-size: 15px;
+        color: white;
+    }
+
+</style>

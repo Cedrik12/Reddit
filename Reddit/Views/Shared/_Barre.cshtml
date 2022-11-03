@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Reddit</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Reddit.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a href="/Accueil?username=@ViewBag.username" class="linkAccueil"><img src="/img/logo_reddit.png" class="logo_header" /></a>
+                <img src="/img/reddit.png" class="logo_header" />
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" />
+                <img src="/img/user.png" class="profile" />
+                <div class="dropdown">
+                    <button class="dropbtn">@ViewBag.username</button>
+                    <div class="dropdown-content">
+                        <a class="option" asp-controller="Historique" asp-action="Index" asp-route-username="@ViewBag.username">Mes liens</a>
+                        <a class="option" asp-controller="Connexion" asp-action="Index" asp-route-username="@ViewBag.username">Déconnexion</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+<script>
+    var toggler = document.getElementsByClassName("caret");
+    var i;
+
+    for (i = 0; i < toggler.length; i++) {
+        toggler[i].addEventListener("click", function () {
+            this.parentElement.querySelector(".nested").classList.toggle("active");
+            this.classList.toggle("caret-down");
+        });
+    }
+</script>
+
+
+<style>
+    body {
+        background-color: #262626;
+    }
+
+    .logo_header {
+        margin-left: auto;
+        maring-right: auto;
+        display: grid;
+        width: 3%;
+        height: 3%;
+    }
+
+    .profile {
+        margin-left: auto;
+        maring-right: auto;
+        display: grid;
+        width: 2%;
+        height: 2%;
+    }
+
+    .linkAccueil {
+        width: 70%;
+        margin-left: -68%;
+        maring-right: auto;
+    }
+
+    .navbar {
+        padding: 0%;
+        background-color: lightgrey;
+    }
+
+    .name_header {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 5px;
+        margin-right: 10px;
+    }
+
+    .dropbtn {
+        background-color: lightgray;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        margin-right: 1%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .dropdown-content a:hover {
+                background-color: #ddd;
+            }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+</style>
+

@@ -1,0 +1,76 @@
+﻿@{
+    Layout = "_Barre";
+}
+
+
+<!DOCTYPE html>
+<html>
+
+@if (ViewBag.LienAlert == true)
+{
+    <script language='javascript'>alert("Lien non crée, vous avez oublier de mettre un titre!!! - William")</script>
+}
+<body>
+    <form asp-action="AjouterLien" asp-route-userid="@ViewBag.userid" method="post" enctype="multipart/form-data">
+        <br />
+        <input type="text" placeholder="Titre" class="title" name="title" />
+        <br />
+        <textarea type="text" placeholder="Description (Optionnel)" class="description" name="description"></textarea>
+        <input type="file" accept="image/png, image/jpeg" id="image" name="image" style="color: white; margin-left: 15%" />
+        <br />
+        <input asp-action="RetourAccueil" asp-route-userid="@ViewBag.userid" type="submit" class="btn_cancel" value="Cancel">
+        <input type="submit" class="btn_submit" name="add" value="Ajouter"/>
+    </form>
+    
+</body>
+</html>
+<style>
+    .title{
+        background-color: darkgray;
+        border-radius: 10px;
+        width: 70%;
+        min-height: 50px;
+        max-height: 100px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: x-large;
+        display: flex;
+        align-items: center;
+        color: black;
+    }
+
+    .description{
+        background-color: lightgray;
+        border-radius: 10px;
+        width: 70%;
+        min-height: 450px;
+        max-height: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        align-items: start;
+        font-size: x-large;
+    }
+
+    .btn_cancel{
+        background-color: lightgray;
+        border-radius: 40px;
+        width:8%;
+        height: 3em;
+        color: black;
+        margin-left: 69%;
+    }
+
+    .btn_submit{
+        background-color: rgb(255,69,0);
+        border-radius: 40px;
+        width: 8%;
+        height: 3em;
+    }
+
+</style>
+
+<script type="text/javascript">
+    var path = (window.URL || window.webkitURL).createObjectURL(file);
+    console.log('path', path);
+</script>

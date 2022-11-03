@@ -1,0 +1,229 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@if (ViewBag.connexionalert == true)
+{
+    <script language='javascript'>alert(' Erreur : le login ou le mot de passe est incorrect ');</script>
+}
+@if (ViewBag.inscriptionalert == true)
+{
+    <script language='javascript'>alert(' Erreur : le email ou le username est déja utilisé ');</script>
+}
+<div>
+    <div>
+        <img src="/img/logo_reddit.png" class="logo" style="margin-right: 275px" />
+    </div>
+    <div class="ConnexionRecente">
+        <h1 style="position:fixed;">Connexion récente</h1>
+        <p style="position:fixed;padding:50px; margin-left:-45px">
+            Cliquer sur votre image pour vous connecter</p>
+        @if (ViewBag.username != null)
+        {
+              <div style="position:fixed;" class="userbox">
+                <img class="userimage" src="/img/user.png" />
+                <p style="text-align:center"><a class="name" href="/Connexion/RecentConnexion?username=@ViewBag.username">@ViewBag.username</a></p>
+              </div>
+            }
+        <p class="obtenirApp">Obtenir l'application</p>
+        <a href="https://play.google.com/store/apps/details?id=com.reddit.frontpage&hl=en_CA&gl=US" target="_blank" tabIndex="0"><img class="googleplay" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/2560px-Google_Play_Store_badge_EN.svg.png" alt="bn45" /></a>
+        <a href="https://apps.apple.com/us/app/reddit/id1064216828" tabIndex="0" target="_blank"><img class="applestore" src="/img//appstore.png" /></a>
+    </div>
+    <div class="ConnexionBox">
+        <div class="siteName">
+            <img class="nameOfApp" src="/img/reddit.png" />
+        </div>
+        <div>
+            <form asp-action="ConnexionUser">
+                <div class="firstInput">
+                    <input name="courriel" type="email" placeholder="Courriel" required class="inputConnexion" />
+                </div>
+                <br />
+                <input name="pwd" type="password" placeholder="Mot de Passe" required class="inputConnexion" />
+                <br />
+                <br />
+                <input type="submit" value="Connexion" class="connexion" />
+            </form>
+        </div>
+
+    </div>
+    <div class="goToInscriptionBox">
+        <p class="linkToInscription"><a href="/Inscription">Vous voulez vous inscrire?</a></p>
+    </div>
+    <div class="bottomDroits">
+        <p class="credits">Français (Canada) © 2022 Reddit Inc.<p>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #262626;
+    }
+
+    .ConnexionRecente{
+        color: white;
+    }
+
+    .name {
+        background-color: rgb(255,69,0);
+        color: #ffffff;
+        font-size: 1em;
+        font-weight: 600;
+        position: relative;
+        outline: none;
+        border-radius: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        height: 30px;
+        width: 140px;
+        margin-left:35px;
+        margin-top: 5px
+    }
+
+    .name:hover{
+        color: white;
+    }
+
+    .googleplay {
+        width: 170px;
+        height: 50px;
+        margin-top:500px;
+        position:fixed
+    }
+
+    .applestore {
+        width: 175px;
+        height: 90px;
+        margin-left: 200px;
+        margin-top: 480px;
+        position: fixed;
+    }
+
+    .obtenirApp{
+        margin-top: 450px;
+        margin-left: 120px;
+        position: fixed
+    }
+
+    .userbox {
+        background-color: rgba(217.0000022649765, 217.0000022649765, 217.0000022649765, 1);
+        width: 204px;
+        height: 204px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        margin-top: 90px
+    }
+
+    .userimage{
+        width: 75%;
+        height: 75%;
+        margin-top: 10px
+    }
+
+    .ConnexionBox {
+        background: rgb(255,69,0);
+        background: linear-gradient(90deg, rgba(255,69,0,1) 10%, rgba(13,13,13,1) 10%);
+        border: 1px #939393 solid;
+        border-radius: 10px;
+        width: 30%;
+        height: 500px;
+        margin-left: 750px;
+        box-shadow: 15px 15px rgba(27, 26, 26, 1);
+    }
+
+    .firstInput {
+        margin-top: 5px;
+    }
+
+    .inputConnexion {
+        border: 1px #939393 solid;
+        color: white;
+        background-color: black;
+        border-radius: 10px;
+        padding: 10px;
+        justify-content: center;
+        display: grid;
+        margin-right: auto;
+        margin-left: auto;
+        width: 70%;
+        font-size: 18px;
+    }
+
+    .connexion {
+        background-color: #FF4500;
+        color: white;
+        border: 1px #FF4500 solid;
+        border-radius: 5px;
+        padding: 10px;
+        justify-content: center;
+        display: grid;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .goToInscriptionBox {
+        background-color: #0D0D0D;
+        border: 1px #939393 solid;
+        border-radius: 10px;
+        width: 30%;
+        height: 50px;
+        margin-top: 30px;
+        margin-left: 750px;
+        box-shadow: 15px 15px rgba(27, 26, 26, 1);
+    }
+
+    .linkToInscription {
+        color: white;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: center;
+        line-height: inherit;
+    }
+
+    a {
+        color: white;
+    }
+
+        a:hover {
+            color: #FF4500;
+        }
+
+    img {
+        margin-left: auto;
+        margin-right: auto;
+        display: grid;
+    }
+
+    .logo {
+        margin-top: 5%;
+        width: 10%;
+        height: 10%;
+    }
+
+    .nameOfApp {
+        width: 50%;
+        height: 50%;
+    }
+
+    .bottomDroits {
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        position: absolute;
+        height: 3%;
+        background-color: #FF4500;
+        align-items: center;
+    }
+
+    .credits {
+        text-align: center;
+        font-size: 15px;
+        color: white;
+    }
+
+  
+</style>
